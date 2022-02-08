@@ -16,6 +16,7 @@ namespace hadik2
         Region region1;
         Region region2;
         Region intersection;
+        GraphicsPath snakePath;
         public Form1()
         {
             InitializeComponent();
@@ -39,7 +40,17 @@ namespace hadik2
 
             intersection = region1.Clone();
             intersection.Intersect(region2);
-            
+
+            snakePath = new GraphicsPath();
+            snakePath.AddLine(0, 0, 100, 100);
+            snakePath.AddLine(100, 100, 200, 200);
+            snakePath.AddLine(100, 200, 300, 400);
+            snakePath.AddLines(new Point[] { new Point(300, 400), new Point(250, 200), new Point(150, 300) });
+
+            Pen pero = new Pen(Color.Black, 10);
+            pero.StartCap = LineCap.Round;
+            pero.EndCap = LineCap.Round;
+            snakePath.Widen(pero);
 
             pictureBox1.Refresh();
         }
@@ -59,6 +70,11 @@ namespace hadik2
                 e.Graphics.FillRegion(Brushes.Yellow, intersection);
                 Text = (!intersection.IsEmpty(e.Graphics)).ToString();
             }
+            if(snakePath !=null)
+            {
+                //e.Graphics.DrawPath(, snakePath);
+            }
         }
+
     }
 }
